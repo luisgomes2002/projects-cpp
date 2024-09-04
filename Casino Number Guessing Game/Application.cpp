@@ -8,6 +8,7 @@ private:
 	int choice;
 	std::string playerName;
 	float value;
+	int matchesPlayed;
 
 	int RandNum()
 	{
@@ -34,8 +35,15 @@ private:
 		std::cout << "-------------------" << std::endl;
 	}
 
+	void Play()
+	{
+		for (int& num : numbers) {
+			num = RandNum();
+		}
+	}
+
 public:
-	Casino() : coin(10)
+	Casino() : coin(10), matchesPlayed(1)
 	{
 		std::cout << "What is your name?" << std::endl;
 		std::cin >> playerName;
@@ -56,13 +64,12 @@ public:
 		}
 
 		coin -= 2.0;
-
-		for (int& num : numbers) {
-			num = RandNum();
-		}
-
+		matchesPlayed++;
+		
+		Play();
 		Display(numbers);
 		VerifyMatch(numbers);
+
 
 		Menu();
 	}
@@ -86,6 +93,11 @@ public:
 		std::cin >> choice;
 
 		std::system("cls");
+
+		if (choice < 1 || choice > 3) {
+			Menu();
+			std::cout << "Invalid number try again!" << std::endl;
+		}
 
 		if (choice == 1) Run();
 		if (choice == 2) PrintInfos();
